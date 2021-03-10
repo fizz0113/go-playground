@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+package prototypes;
+
+option go_package = "github.com/Intrising/autopvt_agent/prototypes";
+
+import "google/protobuf/empty.proto";
+import "google/protobuf/timestamp.proto";
+
+message SubscriberConfig {
+  repeated string topics = 1;
+  int32 channel_size = 2;
+}
+
+message MessageEntry {
+  string topic = 1;
+  bytes data  = 2;
+  google.protobuf.Timestamp ts = 3;
+}
+
+service BrokerService {
+  rpc Subscribe(SubscriberConfig) returns (stream MessageEntry) {}
+  rpc Publish(stream MessageEntry) returns (google.protobuf.Empty) {}
+}
