@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<body>
+  <h2>WebSocket Test</h2>
+  <input id="msg" placeholder="Type a message">
+  <button onclick="sendMsg()">Send</button>
+  <ul id="log"></ul>
+
+  <script>
+    const ws = new WebSocket("ws://localhost:8080/ws");
+    const log = document.getElementById("log");
+
+    ws.onopen = () => log.innerHTML += "<li>✅ Connected</li>";
+    ws.onmessage = (e) => log.innerHTML += `<li>📨 ${e.data}</li>`;
+    ws.onclose = () => log.innerHTML += "<li>❌ Disconnected</li>";
+
+    function sendMsg() {
+      const msg = document.getElementById("msg").value;
+      ws.send(msg);
+    }
+  </script>
+</body>
+</html>
